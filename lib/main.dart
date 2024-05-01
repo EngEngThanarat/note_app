@@ -7,7 +7,7 @@ import 'pages/notes_page.dart';
 void main() async {
   // initialize note isar database
   WidgetsFlutterBinding.ensureInitialized();
-  await NoteDatabase.Initialize();
+  await NoteDatabase.initialize();
 
   runApp(
   MultiProvider(providers: [

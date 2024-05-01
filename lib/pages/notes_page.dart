@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app_nosql/components/drawer.dart';
 import 'package:note_app_nosql/models/note.dart';
 import 'package:note_app_nosql/models/note_database.dart';
 import 'package:provider/provider.dart';
@@ -111,7 +112,7 @@ class _NotesPageState extends State<NotesPage> {
         onPressed: createNote,
         child: const Icon(Icons.add),
       ),
-      drawer: Drawer(),
+      drawer: const MyDrawer(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -128,14 +129,14 @@ class _NotesPageState extends State<NotesPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              style: const TextStyle(fontSize: 16, color: Colors.black),
+              style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.inversePrimary),
               decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(vertical: 12),
                   hintText: "Search notes...",
-                  hintStyle: const TextStyle(color: Colors.grey),
-                  prefixIcon: const Icon(
+                  hintStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                  prefixIcon: Icon(
                     Icons.search,
-                    color: Colors.grey,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                   fillColor: Theme.of(context).colorScheme.primary,
                   filled: true,
@@ -168,8 +169,8 @@ class _NotesPageState extends State<NotesPage> {
                             overflow: TextOverflow.ellipsis,
                             text: TextSpan(
                               text: (note.text),
-                              style: const TextStyle(
-                                  color: Colors.black, fontSize: 16, height: 1.5),
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.inversePrimary, fontSize: 16, height: 1.5),
                             )),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,

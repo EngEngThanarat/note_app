@@ -7,7 +7,7 @@ class NoteDatabase extends ChangeNotifier{
   static late Isar isar;
 
   // Initialize - Database
-  static Future<void> Initialize() async {
+  static Future<void> initialize() async {
     final dir = await getApplicationCacheDirectory();
     isar = await Isar.open(
       [NoteSchema],
