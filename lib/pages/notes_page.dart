@@ -105,6 +105,7 @@ class _NotesPageState extends State<NotesPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: createNote,
@@ -121,6 +122,30 @@ class _NotesPageState extends State<NotesPage> {
               fontSize: 48,
               color: Theme.of(context).colorScheme.inversePrimary,
             )),
+          ),
+
+          // Search Field
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              style: const TextStyle(fontSize: 16, color: Colors.black),
+              decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                  hintText: "Search notes...",
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  prefixIcon: const Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                  ),
+                  fillColor: Theme.of(context).colorScheme.primary,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.transparent)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.transparent))),
+            ),
           ),
 
           // LIST OF NOTES
