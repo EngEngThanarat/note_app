@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note_app_nosql/models/note.dart';
 import 'package:note_app_nosql/models/note_database.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -56,9 +57,7 @@ class _NotesPageState extends State<NotesPage> {
   }
 
 // search note
-  void onSearchTextChanged(String searchText) {
-
-  }
+  void onSearchTextChanged(String searchText) {}
 
   // update note
   void updateNote(Note note) {
@@ -104,90 +103,70 @@ class _NotesPageState extends State<NotesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Notes',
-        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: createNote,
         child: const Icon(Icons.add),
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-        child: Column(children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      drawer: Drawer(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // HEADING
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0),
+            child: Text('Notes',style: GoogleFonts.dmSerifText(
+              fontSize: 48,
+              color: Theme.of(context).colorScheme.inversePrimary,
+            )),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          TextField(
-            onChanged: onSearchTextChanged,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-            ),
-            decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                hintText: "Search notes...",
-                hintStyle: const TextStyle(color: Colors.grey),
-                prefixIcon: const Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                ),
-                fillColor: Colors.grey.shade200,
-                filled: true,
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.transparent)),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.transparent))),
-          ),
+
+          // LIST OF NOTES
           Expanded(
-              child: ListView.builder(
-                  padding: const EdgeInsets.only(top: 20),
-                  itemCount: currentNotes.length,
-                  itemBuilder: (context, index) {
-                    // get individual note
-                    final note = currentNotes[index];
-
-                    // list tile ui
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: ListTile(
-                          title: RichText(
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              text: TextSpan(
-                                text: (note.text),
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    height: 1.5),
-                              )),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              // Edit button
-                              IconButton(
-                                onPressed: () => updateNote(note),
-                                icon: const Icon(Icons.edit),
-                              ),
-
-                              // Delete Button
-                              IconButton(
-                                  onPressed: () => deleteNote(note.id),
-                                  icon: const Icon(Icons.delete))
-                            ],
-                          ),
+            child: ListView.builder(
+/*                 padding: const EdgeInsets.only(top: 20), */
+                itemCount: currentNotes.length,
+                itemBuilder: (context, index) {
+                  // get individual note
+                  final note = currentNotes[index];
+            
+                  // list tile ui
+                  return Card(
+                    margin: const EdgeInsets.all(10),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: ListTile(
+                        title: RichText(
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            text: TextSpan(
+                              text: (note.text),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 16, height: 1.5),
+                            )),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Edit button
+                            IconButton(
+                              onPressed: () => updateNote(note),
+                              icon: const Icon(Icons.edit),
+                            ),
+            
+                            // Delete Button
+                            IconButton(
+                                onPressed: () => deleteNote(note.id),
+                                icon: const Icon(Icons.delete))
+                          ],
                         ),
                       ),
-                    );
-                  }))
-        ]),
+                    ),
+                  );
+                }),
+          ),
+        ],
       ),
     );
   }
