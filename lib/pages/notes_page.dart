@@ -55,6 +55,11 @@ class _NotesPageState extends State<NotesPage> {
     context.read<NoteDatabase>().fetchNotes();
   }
 
+// search note
+  void onSearchTextChanged(String searchText) {
+
+  }
+
   // update note
   void updateNote(Note note) {
     // pre-fill the current note text
@@ -62,7 +67,7 @@ class _NotesPageState extends State<NotesPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Update Note"),
+        title: const Text("Update Note"),
         content: TextField(controller: textController),
         actions: [
           // update button
@@ -98,38 +103,92 @@ class _NotesPageState extends State<NotesPage> {
     List<Note> currentNotes = noteDatabase.currentNotes;
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Notes'),
+      appBar: AppBar(
+        title: const Text(
+          'Notes',
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: createNote,
-          child: const Icon(Icons.add),
-        ),
-        body: ListView.builder(
-            itemCount: currentNotes.length,
-            itemBuilder: (context, index) {
-              // get individual note
-              final note = currentNotes[index];
-
-              // list tile ui
-              return ListTile(
-                title: Text(note.text),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Edit button
-                    IconButton(
-                      onPressed: () => updateNote(note),
-                      icon: const Icon(Icons.edit),
-                    ),
-
-                    // Delete Button
-                    IconButton(
-                        onPressed: () => deleteNote(note.id),
-                        icon: Icon(Icons.delete))
-                  ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: createNote,
+        child: const Icon(Icons.add),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+        child: Column(children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          TextField(
+            onChanged: onSearchTextChanged,
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.black,
+            ),
+            decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                hintText: "Search notes...",
+                hintStyle: const TextStyle(color: Colors.grey),
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: Colors.grey,
                 ),
-              );
-            }));
+                fillColor: Colors.grey.shade200,
+                filled: true,
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.transparent)),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.transparent))),
+          ),
+          Expanded(
+              child: ListView.builder(
+                  padding: const EdgeInsets.only(top: 20),
+                  itemCount: currentNotes.length,
+                  itemBuilder: (context, index) {
+                    // get individual note
+                    final note = currentNotes[index];
+
+                    // list tile ui
+                    return Card(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: ListTile(
+                          title: RichText(
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              text: TextSpan(
+                                text: (note.text),
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    height: 1.5),
+                              )),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              // Edit button
+                              IconButton(
+                                onPressed: () => updateNote(note),
+                                icon: const Icon(Icons.edit),
+                              ),
+
+                              // Delete Button
+                              IconButton(
+                                  onPressed: () => deleteNote(note.id),
+                                  icon: const Icon(Icons.delete))
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }))
+        ]),
+      ),
+    );
   }
 }
