@@ -12,7 +12,7 @@ class MyDrawer extends StatelessWidget {
       child: Column(children: [
         //Header
         const DrawerHeader(
-          child: Icon(Icons.edit),
+          child: Icon(Icons.edit, size: 50,),
         ),
 
         const SizedBox(height: 25),

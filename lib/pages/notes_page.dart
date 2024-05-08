@@ -20,7 +20,6 @@ class _NotesPageState extends State<NotesPage> {
   @override
   void initState() {
     super.initState();
-
     // on app startup, fetch notes
     readNote();
   }
@@ -30,7 +29,7 @@ class _NotesPageState extends State<NotesPage> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          backgroundColor: Theme.of(context).colorScheme.background,
+              backgroundColor: Theme.of(context).colorScheme.background,
               title: const Text('Create Note'),
               content: TextField(
                 controller: textController,
@@ -59,8 +58,17 @@ class _NotesPageState extends State<NotesPage> {
     context.read<NoteDatabase>().fetchNotes();
   }
 
-// search note
-  void onSearchTextChanged(String searchText) {}
+  // search note
+  void onSearchTextChanged(String searchText) {
+    if (searchText != '') {
+      setState(() {
+        context.read<NoteDatabase>().searchNotes(searchText) as List<Note>;
+      });
+    }
+    else {
+      readNote();
+    }
+  }
 
   // update note
   void updateNote(Note note) {
@@ -113,8 +121,11 @@ class _NotesPageState extends State<NotesPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: createNote,
-      backgroundColor: Theme.of(context).colorScheme.primary,
-        child: Icon(Icons.add, color: Theme.of(context).colorScheme.inversePrimary,),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).colorScheme.inversePrimary,
+        ),
       ),
       drawer: const MyDrawer(),
       body: Column(
@@ -123,24 +134,29 @@ class _NotesPageState extends State<NotesPage> {
           // HEADING
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
-            child: Text('Notes',style: GoogleFonts.dmSerifText(
-              fontSize: 48,
-              color: Theme.of(context).colorScheme.inversePrimary,
-            )),
+            child: Text('Notes',
+                style: GoogleFonts.dmSerifText(
+                  fontSize: 48,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                )),
           ),
 
           // Search Field
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.inversePrimary),
+              onChanged: onSearchTextChanged,
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.inversePrimary),
               decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(vertical: 12),
                   hintText: "Search notes...",
-                  hintStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                  hintStyle:
+                      TextStyle(color: Theme.of(context).colorScheme.secondary),
                   prefixIcon: Icon(
                     Icons.search,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.inversePrimary,
                   ),
                   fillColor: Theme.of(context).colorScheme.primary,
                   filled: true,
@@ -161,13 +177,13 @@ class _NotesPageState extends State<NotesPage> {
                 itemBuilder: (context, index) {
                   // get individual note
                   final note = currentNotes[index];
-            
+
                   // list tile ui
                   return NoteTile(
                     text: note.text,
                     onEditPressed: () => updateNote(note),
                     onDeletePressed: () => deleteNote(note.id),
-                    );
+                  );
                 }),
           ),
         ],
