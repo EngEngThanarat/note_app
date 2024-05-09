@@ -30,7 +30,7 @@ class NoteDatabase extends ChangeNotifier{
     fetchNotes();
   }
 
-  // Search - Note
+  // Search - notes from db
   Future<void> searchNotes(String value) async {
     List<Note> searchedNotes = await isar.notes.filter().textContains(value).findAll();
     currentNotes.clear();

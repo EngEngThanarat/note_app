@@ -60,14 +60,9 @@ class _NotesPageState extends State<NotesPage> {
 
   // search note
   void onSearchTextChanged(String searchText) {
-    if (searchText != '') {
-      setState(() {
-        context.read<NoteDatabase>().searchNotes(searchText) as List<Note>;
-      });
-    }
-    else {
-      readNote();
-    }
+    setState(() {
+          context.read<NoteDatabase>().searchNotes(searchText) as List<Note>;
+    });
   }
 
   // update note
