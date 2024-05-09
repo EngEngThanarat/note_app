@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:note_app_nosql/models/note_database.dart';
-import 'package:provider/provider.dart';
-
-import '../models/note.dart';
 
 class EditScreen extends StatefulWidget {
   final String text;
-  const EditScreen({super.key,required this.text});
+
+  const EditScreen({super.key,required this.text,});
 
   @override
   State<EditScreen> createState() => _EditScreenState();
@@ -19,39 +16,13 @@ class _EditScreenState extends State<EditScreen> {
 
   @override
   void initState() {
+    if (widget.text != '') {
       _contentController = TextEditingController(text: widget.text);
-    
+    }else{
+
+    }
 
     super.initState();
-  }
-
-  void updateNote(Note note) {
-    // pre-fill the current note text
-    _contentController.text = note.text;
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        title: const Text("Update Note"),
-        content: TextField(controller: _contentController),
-        actions: [
-          // update button
-          MaterialButton(
-            onPressed: () {
-              // update note in db
-              context
-                  .read<NoteDatabase>()
-                  .updateNote(note.id, _contentController.text);
-              // clear controller
-              _contentController.clear();
-              // pop dialog box
-              Navigator.pop(context);
-            },
-            child: const Text("Update"),
-          )
-        ],
-      ),
-    );
   }
 
   @override
@@ -87,6 +58,7 @@ class _EditScreenState extends State<EditScreen> {
                   controller: _contentController,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.inversePrimary,
+                    fontSize: 18,
                   ),
                   maxLines: null,
                   decoration: InputDecoration(
@@ -94,7 +66,7 @@ class _EditScreenState extends State<EditScreen> {
                       hintText: 'Type something here',
                       hintStyle: TextStyle(
                         color: Theme.of(context).colorScheme.secondary,
-                        fontSize: 24,
+                        fontSize: 20,
                       )),
                 ),
               ],
@@ -103,14 +75,14 @@ class _EditScreenState extends State<EditScreen> {
           )
         ]),
       ),
-      floatingActionButton: FloatingActionButton(
+/*       floatingActionButton: FloatingActionButton(
         onPressed: () {
           //updateNote(note);
         },
         elevation: 10,
-        backgroundColor: Colors.grey.shade800,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         child: const Icon(Icons.save),
-      ),
+      ), */
     );
   }
 }

@@ -32,6 +32,7 @@ class _NotesPageState extends State<NotesPage> {
               backgroundColor: Theme.of(context).colorScheme.background,
               title: const Text('Create Note'),
               content: TextField(
+                maxLines: null,
                 controller: textController,
               ),
               actions: [
@@ -74,7 +75,7 @@ class _NotesPageState extends State<NotesPage> {
       builder: (context) => AlertDialog(
         backgroundColor: Theme.of(context).colorScheme.background,
         title: const Text("Update Note"),
-        content: TextField(controller: textController),
+        content: TextField(maxLines: null,controller: textController),
         actions: [
           // update button
           MaterialButton(
